@@ -78,7 +78,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		"NFCReader::NFCReader::Product" /* NFCReader.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = NFCReader.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		"NFCReader::NFCReader::Product" /* NFCReader.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NFCReader.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		"NFCReader::NFCReaderTests::Product" /* NFCReaderTests.xctest */ = {isa = PBXFileReference; lastKnownFileType = file; path = NFCReaderTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		OBJ_10 /* Reader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reader.swift; sourceTree = "<group>"; };
 		OBJ_11 /* ReaderConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderConfiguration.swift; sourceTree = "<group>"; };
@@ -257,7 +257,7 @@
 			path = FeliCa;
 			sourceTree = "<group>";
 		};
-		OBJ_5 /*  */ = {
+		OBJ_5 = {
 			isa = PBXGroup;
 			children = (
 				OBJ_6 /* Package.swift */,
@@ -268,7 +268,6 @@
 				OBJ_60 /* LICENSE */,
 				OBJ_61 /* README.md */,
 			);
-			name = "";
 			sourceTree = "<group>";
 		};
 		OBJ_53 /* Utilities */ = {
@@ -376,7 +375,7 @@
 			knownRegions = (
 				en,
 			);
-			mainGroup = OBJ_5 /*  */;
+			mainGroup = OBJ_5;
 			productRefGroup = OBJ_56 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -567,6 +566,7 @@
 		OBJ_64 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_TESTABILITY = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -595,6 +595,7 @@
 		OBJ_65 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_TESTABILITY = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
