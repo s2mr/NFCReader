@@ -25,19 +25,19 @@ public extension Suica {
         public let rawData: Data
 
         /// Machine type
-        public let machineType: MachineType
+        public let machineType: MachineType?
 
         /// `true` if you paid by cash and IC. otherwise, `false`
         public let isPaymentWithCashAndIC: Bool
 
         /// Usage type
-        public let usageType: UsageType
+        public let usageType: UsageType?
 
         /// Payment type
-        public let paymentType: PaymentType
+        public let paymentType: PaymentType?
 
         /// Entrance or exit type
-        public let entranceOrExitType: EntranceOrExitType
+        public let entranceOrExitType: EntranceOrExitType?
 
         /// Year of use
         public let year: UInt8 // 7bit
@@ -64,8 +64,9 @@ public extension Suica {
 
         public let detail: Detail
 
-        public var kind: Kind {
-            usageType.isShopping ? .shopping
+        public var kind: Kind? {
+            guard let usageType = usageType else { return nil }
+            return usageType.isShopping ? .shopping
                 : usageType.isBus ? .bus
                 : code1 < 0x80 ? .jr : .publicOrPrivate
         }
@@ -73,11 +74,11 @@ public extension Suica {
         public init(data: Data) throws {
             try Self.validate(data: data)
             rawData = data
-            machineType = try MachineType(rawValue: data[0]).orThrow(TagErrors.dataInconsistency)
+            machineType = MachineType(rawValue: data[0])
             isPaymentWithCashAndIC = data[1] >> 7 == 1
-            usageType = try UsageType(rawValue: data[1] & 0b01111111).orThrow(TagErrors.dataInconsistency)
-            paymentType = try PaymentType(rawValue: data[2]).orThrow(TagErrors.dataInconsistency)
-            entranceOrExitType = try EntranceOrExitType(rawValue: data[3]).orThrow(TagErrors.dataInconsistency)
+            usageType = UsageType(rawValue: data[1] & 0b01111111)
+            paymentType = PaymentType(rawValue: data[2])
+            entranceOrExitType = EntranceOrExitType(rawValue: data[3])
             year = data[4] >> 1
             month = UInt8(UInt16(bytes: data[4], data[5]) >> 5 & 0b00001111)
             day = data[5] & 0b00011111
@@ -90,12 +91,12 @@ public extension Suica {
 
             if usageType == .buyTicket {
                 detail = .trainTicket(.init(stationCode: code1, vendingMachineNumber: code2))
-            } else if usageType.isShopping {
+            } else if usageType?.isShopping ?? false {
                 detail = .shopping(.init(hour: UInt8(code1 >> 11),
                                          minute: UInt8(code1 >> 5 & 0b111111),
                                          second: UInt8(code1 & 0b11111),
                                          paymentDeviceId: code2))
-            } else if usageType.isBus {
+            } else if usageType?.isBus ?? false {
                 detail = .bus(.init(businessCode: code1, stopCode: code2))
             } else {
                 detail = .train(.init(entranceCode: code1, exitCode: code2))

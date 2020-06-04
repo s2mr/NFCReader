@@ -27,10 +27,10 @@ public extension Suica {
         let unknown: UInt64
 
         /// Last payment area
-        public let lastPaymentArea: PaymentArea
+        public let lastPaymentArea: PaymentArea?
 
         /// Card type
-        public let type: CardType
+        public let type: CardType?
 
         let unknown2: UInt16
 
@@ -48,8 +48,8 @@ public extension Suica {
 
             unknown = UInt64(bytes: data[0..<8])
 
-            lastPaymentArea = try PaymentArea(rawValue: data[8] & 0b00001111).orThrow(TagErrors.dataInconsistency)
-            type = try CardType(rawValue: data[8] >> 4).orThrow(TagErrors.dataInconsistency)
+            lastPaymentArea = PaymentArea(rawValue: data[8] & 0b00001111)
+            type = CardType(rawValue: data[8] >> 4)
 
             unknown2 = UInt16(bytes: data[9], data[10])
             balance = UInt16(bytes: data[12], data[11])

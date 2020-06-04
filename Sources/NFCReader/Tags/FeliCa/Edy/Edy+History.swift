@@ -25,7 +25,7 @@ public extension Edy {
         public let rawData: Data
 
         /// Transaction type
-        public let transactionType: TransactionType // [0]
+        public let transactionType: TransactionType? // [0]
 
         /// Sequential number
         public let sequentialNumber: UInt32 // [1-3]
@@ -57,7 +57,7 @@ public extension Edy {
         public init(data: Data) throws {
             try Self.validate(data: data)
             rawData = data
-            transactionType = try TransactionType(rawValue: data[0]).orThrow(TagErrors.dataInconsistency)
+            transactionType = TransactionType(rawValue: data[0])
             sequentialNumber = UInt32(bytes: data[1...3])
 
             let dateBits = UInt32(bytes: data[4...7])

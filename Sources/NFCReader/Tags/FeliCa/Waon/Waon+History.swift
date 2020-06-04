@@ -34,7 +34,7 @@ public extension Waon {
         let unknown: Data // [15-16]
 
         /// Transaction type
-        public let transactionType: TransactionType // [17]
+        public let transactionType: TransactionType? // [17]
 
         /// Year (based on 2005)
         public let year: UInt8 // [18] (5bit)
@@ -67,7 +67,7 @@ public extension Waon {
             deviceNumber = data[0...12]
             sequentialNumber = UInt16(bytes: data[13...14])
             unknown = data[15...16]
-            transactionType = try TransactionType(rawValue: data[17]).orThrow(TagErrors.dataInconsistency)
+            transactionType = TransactionType(rawValue: data[17])
             year = data[18] >> 3 & 0b11111
             month = UInt8((UInt16(bytes: data[18...19]) >> 7) & 0b1111)
             day = (data[19] >> 2) & 0b11111
