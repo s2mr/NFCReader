@@ -25,7 +25,7 @@ public extension Nanaco {
         public let rawData: Data
 
         /// Transaction type
-        public let transactionType: TransactionType // [0]
+        public let transactionType: TransactionType? // [0]
 
         /// Amount of change
         public let amount: UInt32 // [1-4]
@@ -55,7 +55,7 @@ public extension Nanaco {
         public init(data: Data) throws {
             try Self.validate(data: data)
             rawData = data
-            transactionType = try TransactionType(rawValue: data[0]).orThrow(TagErrors.dataInconsistency)
+            transactionType = TransactionType(rawValue: data[0])
             amount = UInt32(bytes: data[1...4])
             balance = UInt32(bytes: data[5...8])
             let date = UInt32(bytes: data[9...12])
